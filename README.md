@@ -38,10 +38,11 @@ export const user: ISchema.Store {
 
 ### Source
 
-> Where data comes from and where it is stored.
+> Where data comes from and goes to.
 
 A collection of sources define how to retrieve data (http / websocket / etc)
-and what to do with it by means of store actions.
+and how it interactes with the application stores by means of the store's 
+actions.
 
 ```javascript
 export const user: ISchema.Source {
