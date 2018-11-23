@@ -21,7 +21,7 @@ import {
 import {
   pagesToRouter,
   resolveApplication,
-  storeToActionTriggers,
+  storesToActions,
   storesToReducer,
   storesToSelectors
 } from './util';
@@ -53,7 +53,7 @@ export function Application(
   const store: ReduxStore = createStore(reducer, options.store);
 
   // Setup sources and actions.
-  const action = storeToActionTriggers(app.store, store.dispatch);
+  const action = storesToActions(app.stores, store.dispatch);
   const api: IInstance.API = API({
     source: app.sources,
     store: storesToSelectors(app.stores),

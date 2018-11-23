@@ -16,6 +16,7 @@ import {
 import {
   API,
   Page,
+  PageMeta,
   Query
 } from '../record';
 import {
@@ -34,7 +35,14 @@ export function resolvePage<P>(
   schema: ISchema.Page<P>,
   path: string
 ): IInstance.Page {
-  return Page({ ...schema, path });
+  return Page({
+    ...schema,
+    meta: PageMeta({
+      tags: Immutable.List(schema.meta.tags),
+      title: schema.meta.title
+    }),
+    path
+  });
 }
 
 /**
@@ -54,7 +62,7 @@ export function onEnterPage(
 
   return () => {
     const path = parsePath(location);
-    const params = Immutable.Map(route.test(path.pathname));
+    const params = Immutable.Map<string, string>(route.test(path.pathname) as any);
     const query = Query({
       params
     });

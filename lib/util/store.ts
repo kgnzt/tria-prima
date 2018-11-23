@@ -1,4 +1,5 @@
 import * as Immutable from 'immutable';
+import { RecordOf } from 'immutable';
 import * as UUID from 'simply-uuid';
 import * as fp from 'lodash/fp';
 import {
@@ -8,7 +9,6 @@ import {
   combineReducers
 } from 'redux';
 import {
-  RecordOf,
   IInstance,
   IReducer,
   ISchema,
@@ -45,7 +45,10 @@ export function resolveAction<S, P = any>(
  * @param page A user defined store.
  * @return A store instance.
  */
-export function resolveStore<S>(schema: ISchema.Store<S>): IInstance.Store {
+export function resolveStore<S>(
+  schema: ISchema.Store<S>,
+  name: string
+): IInstance.Store {
   return Store({
     ...schema,
     action: fp.reduce.convert({ cap: false })((
@@ -103,23 +106,23 @@ export function createTrigger(
  */
 export function storeToActionDefaults<T>(store: IInstance.Store): T {
   return store.action.reduce((
-    acc: object,
+    acc: T,
     action: IInstance.Action
-  ): object => {
+  ): T => {
     return fp.set(action.name, () => {
       throw new Error(`No action named: ${action.name}, has been defined.`);
     }, acc);
-  }, {});
+  }, {} as T);
 }
 
 /**
  * Create action triggers from a store.
  *
  * @param store An application store.
- * @param dispatch A dispatch action.
+ * @param dispatch An action dispatch.
  * @return An action record.
  */
-export function storeToActionTriggers<T>(
+export function storeToAction<T>(
   store: IInstance.Store,
   dispatch: Dispatch
 ): RecordOf<T> {
@@ -127,8 +130,27 @@ export function storeToActionTriggers<T>(
     acc: RecordOf<T>,
     action: IInstance.Action
   ) => {
-    return acc.set(action.name, createTrigger(dispatch, action, store));
+    return acc.set(action.name as any, createTrigger(dispatch, action, store) as any);
   }, Immutable.Record<T>(storeToActionDefaults<T>(store))())
+}
+
+/**
+ * Create actions from application stores.
+ *
+ * @param store Application stores.
+ * @param dispatch An action dispatch.
+ * @return An application action record.
+ */
+export function storesToActions<T>(
+  stores: IInstance.StoreList,
+  dispatch: Dispatch
+): RecordOf<T> {
+  return stores.reduce((
+    acc: RecordOf<T>,
+    store: IInstance.Store
+  ) => {
+    return acc.set(store.name as any, storeToAction(store, dispatch) as any);
+  }, Immutable.Record<T>({} as any)());
 }
 
 /**
@@ -157,7 +179,7 @@ export function storeToReducer<S = any, A = AnyAction>(
       throw new Error(`Could not find reducer for action: ${name}.`);
     }
 
-    return store.action.get(name)(state, action.payload);
+    return store.action.get(name).reducer(state, action.payload);
   };
 };
 
@@ -168,7 +190,7 @@ export function storeToReducer<S = any, A = AnyAction>(
  * @return An application reducer.
  */
 export function storesToReducer(
-  stores: Immutable.List<IInstance.Store>
+  stores: IInstance.StoreList
 ): Reducer {
   return combineReducers(stores.reduce((
     acc: object,
@@ -188,7 +210,7 @@ export function storeToSelects(
  * Create selectors from application stores.
  */
 export function storesToSelectors(
-  stores: Immutable.List<IInstance.Store>
+  stores: IInstance.StoreList
 ) {
   return combineReducers(stores.reduce((
     acc: object,

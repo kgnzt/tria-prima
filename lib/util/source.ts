@@ -10,6 +10,9 @@ import {
  * @param page A user defined page.
  * @return A page instance.
  */
-export function resolveSource(schema: ISchema.Page, name: string): IInstance.Page {
+export function resolveSource(
+  schema: ISchema.Page<any>,
+  name: string
+): IInstance.Page {
   return;
 }
