@@ -12,10 +12,10 @@ Application development progresses through three areas of concern:
 
 ### Store
 
-> The structure, change, and retrieval of data.
+> The structure, change, and retrieval of state.
 
-A collection of Immutable stores model an application's state, the changes that 
-can be made to that state, and how that state should be accessed.
+A collection of Immutable stores models the application's state, how changes are 
+made to that state, and the interface for how that state can be accessed.
 
 ```javascript
 export const user: ISchema.Store {
@@ -41,8 +41,7 @@ export const user: ISchema.Store {
 > Where data comes from and goes to.
 
 A collection of sources define how to retrieve data (http / websocket / etc)
-and how it interactes with the application stores by means of the store's 
-actions.
+and how it interactes with the application stores through actions.
 
 ```javascript
 export const user: ISchema.Source {

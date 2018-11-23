@@ -36,7 +36,7 @@ describe('Util: Page', () => {
         title: 'foo'
       },
       selector: () => 'a',
-      setup: () => ''
+      setup: () => Promise.resolve()
     };
     const instance = resolvePage(page, '/user/:userId');
 

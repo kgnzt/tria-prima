@@ -12,6 +12,8 @@ export const Page = Immutable.Record<IPage>({
   meta: PageMeta(),
   path: null,
   select: fp.identity,
-  component: () => <span>Undefined Component.</span>,
-  setup: fp.identity
+  component: () => <span>Undefined component.</span>,
+  setup: () => {
+    return Promise.resolve()
+  }
 });

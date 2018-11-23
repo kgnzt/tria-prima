@@ -51,6 +51,7 @@ export function resolveStore<S>(
 ): IInstance.Store {
   return Store({
     ...schema,
+    name,
     action: fp.reduce.convert({ cap: false })((
       acc: Immutable.Map<string, IInstance.Action>,
       reducer: IReducer<S, any>,
@@ -120,9 +121,9 @@ export function storeToActionDefaults<T>(store: IInstance.Store): T {
  *
  * @param store An application store.
  * @param dispatch An action dispatch.
- * @return An action record.
+ * @return An action record for the store.
  */
-export function storeToAction<T>(
+export function storeToActions<T>(
   store: IInstance.Store,
   dispatch: Dispatch
 ): RecordOf<T> {
@@ -149,7 +150,7 @@ export function storesToActions<T>(
     acc: RecordOf<T>,
     store: IInstance.Store
   ) => {
-    return acc.set(store.name as any, storeToAction(store, dispatch) as any);
+    return acc.set(store.name as any, storeToActions(store, dispatch) as any);
   }, Immutable.Record<T>({} as any)());
 }
 

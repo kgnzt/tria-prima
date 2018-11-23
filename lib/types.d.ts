@@ -42,7 +42,6 @@ export module ISchema {
    */
   export interface Store<T> {
     store: T;
-    name: string;
     action?: {
       [name: string]: IReducer<T, any>;
     };

@@ -52,18 +52,22 @@ describe('Util: Store', () => {
   describe('resolveStore', () => {
     const { resolveStore } = Util;
 
+    const name = 'foo';
     const schema = {
       store: Immutable.Map(),
-      name: 'foo',
       action: {
         ding: (state, payload) => {
         }
       }
     };
-    const instance = resolveStore(schema);
+    const instance = resolveStore(schema, name);
 
-    it('passes store schema', () => {
-      expect(instance.name).toEqual(schema.name);
+    it('assigns the data store', () => {
+      expect(instance.store).toEqual(schema.store);
+    });
+
+    it('assigns the name', () => {
+      expect(instance.name).toEqual('foo');
     });
 
     describe('action', () => {
@@ -111,12 +115,18 @@ describe('Util: Store', () => {
 
     const store = Store({
       action: Immutable.Map({
-        foo: () => {
-          return 'bar';
-        },
-        ding: () => {
-          return 'dong';
-        }
+        foo: Action({
+          name: 'foo',
+          reducer: (state) => {
+            return state;
+          }
+        }),
+        ding: Action({
+          name: 'ding',
+          reducer: (state) => {
+            return state;
+          }
+        })
       })
     });
 
@@ -140,23 +150,29 @@ describe('Util: Store', () => {
     });
   });
 
-  describe('storeToActionTriggers', () => {
-    const { storeToActionTriggers } = Util;
+  describe('storeToActions', () => {
+    const { storeToActions } = Util;
 
     const store = Store({
       name: 'zing',
       action: Immutable.Map({
-        foo: () => {
-          return 'bar';
-        },
-        ding: () => {
-          return 'dong';
-        }
+        ding: Action({
+          name: 'ding',
+          reducer: (state) => {
+            return state;
+          }
+        }),
+        dong: Action({
+          name: 'dong',
+          reducer: (state) => {
+            return state;
+          }
+        })
       })
     });
     const dispatch = sinon.stub();
 
-    const result = storeToActionTriggers<{
+    const result = storeToActions<{
       foo: any,
       ding: any,
     }>(store, dispatch);
@@ -200,9 +216,12 @@ describe('Util: Store', () => {
     const store = Store({
       name: 'root',
       action: Immutable.Map({
-        foo: (state, payload) => {
-          return state + payload;
-        }
+        test: Action({
+          name: 'test',
+          reducer: (state, payload) => {
+            return state + payload;
+          }
+        })
       })
     });
 
@@ -223,7 +242,7 @@ describe('Util: Store', () => {
 
     it('correctly delegates to the reducing function returning result', () => {
       expect(reducer(5, {
-        type: 'root.foo',
+        type: 'root.test',
         payload: 5
       })).toEqual(10);
     });
@@ -235,19 +254,25 @@ describe('Util: Store', () => {
     const stores = Immutable.List([
       Store({
         name: 'alpha',
-        action: {
-          foo: (state, payload) => {
-            return state + payload;
-          }
-        }
+        action: Immutable.Map({
+          foo: Action({
+            name: 'foo',
+            reducer(state, payload) {
+              return state + payload;
+            }
+          })
+        })
       }),
       Store({
         name: 'beta',
-        action: {
-          foo: (state, payload) => {
-            return state - payload;
-          }
-        }
+        action: Immutable.Map({
+          foo: Action({
+            name: 'foo',
+            reducer(state, payload) {
+              return state - payload;
+            }
+          })
+        })
       })
     ]);
 

@@ -3,6 +3,8 @@ import { shallow } from 'enzyme';
 
 import * as Record from '../Page';
 import { PageMeta } from '../PageMeta';
+import { Query } from '../Query';
+import { SetupAPI } from '../SetupAPI';
 
 describe('Record: Page', () => {
   describe('Page', () => {
@@ -22,11 +24,14 @@ describe('Record: Page', () => {
       it('has correct default component', () => {
         const wrapper = shallow(<instance.component />);
 
-        expect(wrapper.text()).toEqual('Undefined Component.');
+        expect(wrapper.text()).toEqual('Undefined component.');
       });
 
       it('has correct default setup', () => {
-        expect(instance.setup('a', 'b')).toEqual('a');
+        const query = Query({});
+        const api = SetupAPI({});
+
+        return expect(instance.setup(query, api)).resolves.toBe(undefined);
       });
     });
   });
