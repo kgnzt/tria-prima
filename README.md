@@ -64,6 +64,17 @@ export const Profile: ISchema.Page = {
     title: 'User Profile'
   },
   component: UserProfile
+  select: ({ action, select }) => {
+    return {
+      users: select.user.find,
+      user: createSelector([
+        select.location.params,
+        select.user.find
+      ], (params, users) => {
+        return users.find(params.get('userId'));
+      })
+    };
+  },
   setup: async ({ params }, { source }) => {
     await source.find(params.get('userId'));
   }
