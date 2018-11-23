@@ -38,7 +38,7 @@ export const user: ISchema.Store {
 
 ### Source
 
-> Where data comes from and goes to.
+> Where state comes from and goes to.
 
 A collection of sources define how to retrieve data (http / websocket / etc)
 and how it relates to an application's stores via actions.
@@ -55,8 +55,8 @@ export const user: ISchema.Source {
 
 > What to display given the browser's location.
 
-Browser locations are mapped to Pages which specify a root component, 
-properties mapped to store changes, and any required setup.
+Browser locations are mapped to Pages, specifying a root component, 
+properties mapped to the store, and actions that may be required for setup.
 
 ```javascript
 export const Profile: ISchema.Page = {
@@ -72,4 +72,19 @@ export const Profile: ISchema.Page = {
 export const path: ISchema.Path = {
   '/user/:userId': Profile
 }
+```
+
+## Creating an Application
+
+Creating an Application means loading three schemas:
+
+```javascript
+
+const App = Application({
+  path,
+  source,
+  store
+})
+
+ReactDOM.render(<App />, document.getElementById('app'));
 ```
