@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env ./node_modules/.bin/ts-node
 
 import { S3 } from 'aws-sdk';
 import * as fs from 'fs';

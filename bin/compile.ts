@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node
+#!/usr/bin/env ./node_modules/.bin/ts-node
 
 import * as Handlebars from 'handlebars';
 import * as fs from 'fs';

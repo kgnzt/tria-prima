@@ -12,7 +12,8 @@
     }
   },
   "include": [
-    "./lib/*"
+    "./lib/*",
+    "./bin/*"
   ],
   "exclude": [
     "./lib/**/*.test.ts",

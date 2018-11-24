@@ -2,11 +2,11 @@
   "name": "tria-prima",
   "version": "0.0.0",
   "description": "Frontend application framework.",
-  "main": "./dist/index.js",
+  "main": "./dist/lib/index.js",
   "bin": {
-    "tria-prima-deploy": "./bin/deploy.ts",
-    "tria-prima-push": "./bin/push.ts",
-    "tria-prima-compile": "./bin/compile.ts"
+    "tria-prima-deploy": "./dist/bin/deploy.js",
+    "tria-prima-push": "./dist/bin/push.js",
+    "tria-prima-compile": "./dist/bin/compile.js"
   },
   "scripts": {
     "test": "jest",
