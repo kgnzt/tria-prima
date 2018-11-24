@@ -87,7 +87,7 @@ export const path: ISchema.Path = {
 
 ## Creating an Application
 
-Creating an Application by providing the three schemas:
+Create an Application by providing the three schemas outlined above:
 
 ```javascript
 
