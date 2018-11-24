@@ -3,6 +3,7 @@
   "version": "0.6.0",
   "description": "Frontend application framework.",
   "main": "./dist/lib/index.js",
+  "files": ["dist"],
   "bin": {
     "tria-prima-compile": "./dist/bin/compile.js",
     "tria-prima-deploy": "./dist/bin/deploy.js",
