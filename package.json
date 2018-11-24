@@ -4,13 +4,14 @@
   "description": "Frontend application framework.",
   "main": "./dist/lib/index.js",
   "bin": {
-    "tria-prima-compile": "./dist/bin/compile.js",
-    "tria-prima-deploy": "./dist/bin/deploy.js",
-    "tria-prima-push": "./dist/bin/push.js"
+    "tria-prima-compile": "./bin/compile.js",
+    "tria-prima-deploy": "./bin/deploy.js",
+    "tria-prima-push": "./bin/push.js"
   },
   "scripts": {
     "test": "jest",
-    "compile": "tsc"
+    "clean": "rm -rf ./dist && rm ./bin/*.js*",
+    "compile": "tsc && cp ./dist/bin/*.js* ./bin"
   },
   "types": "./dist/types.d.ts",
   "author": "Nicolas Feigenbaum (Kognizant)",
