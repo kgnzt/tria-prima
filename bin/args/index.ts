@@ -1,11 +1,6 @@
 import * as path from 'path';
 
 /**
- * The current working directory.
- */
-export const cwd = process.cwd();
-
-/**
  * The build directory.
  */
 export const directory = {

@@ -35,6 +35,11 @@ export interface IAssetBundle {
   jsPathRelative: string;
 
   /**
+   * The root of the build.
+   */
+  root: string;
+
+  /**
    * The index.html file path.
    */
   indexPath: string;
@@ -95,11 +100,14 @@ export function AssetBundle(options: IOptions): IAssetBundle {
   const tag: string = uuid();
   const js: string = `${tag}-dtd.js`;
   const assetPath: string = path.resolve(options.directory, tag);
+  const root: string = path.resolve(options.directory, '../');
+  const jsPath: string = path.resolve(assetPath, js);
 
   return {
     indexPath: path.resolve(assetPath, 'index.html'),
     js,
-    jsPath: path.resolve(assetPath, js),
+    jsPath,
+    root,
     jsPathRelative: `./${tag}/${js}`,
     path: assetPath,
     s3Javscript: `https://s3-${options.region}.amazonaws.com/${options.bucket}/${tag}/${js}`,
@@ -162,11 +170,11 @@ export function javascript(
   options: IOptions
 ): Promise<number> {
   return new Promise((resolve, reject) => {
-    const webpack = spawn(WEBPACK, [
+    const webpack = spawn(path.resolve(__dirname, '../../', WEBPACK), [
       `--mode=${options.environment}`,
       `--output-filename=${bundle.jsPathRelative}`
     ], {
-      cwd: args.cwd,
+      cwd: bundle.root,
       stdio: 'inherit'
     });
     

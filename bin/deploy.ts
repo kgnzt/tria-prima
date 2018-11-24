@@ -9,7 +9,7 @@ import { IAssetBundle } from './compile';
 /**
  * Typescript node binary.
  */
-const TS_NODE = './node_modules/.bin/ts-node';
+const NODE = 'node';
 
 /**
  * Compilation script.
@@ -40,7 +40,7 @@ export function outputToAsset(output: Buffer): IAssetBundle {
  */
 export function compile(): Promise<IAssetBundle> {
   return new Promise((resolve, reject) => {
-    const compileProc = spawn(TS_NODE, [
+    const compileProc = spawn(NODE, [
       COMPILE
     ], {
       stdio: 'pipe'
@@ -77,7 +77,7 @@ export function push(bundle: IAssetBundle): Promise<{
   code: number
 }> {
   return new Promise((resolve, reject) => {
-    const pushProc = spawn(TS_NODE, [
+    const pushProc = spawn(NODE, [
       PUSH,
       `--tag=${bundle.tag}`
     ], {
