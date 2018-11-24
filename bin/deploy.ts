@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import * as _ from 'lodash';
 import * as path from 'path';
 import { spawn } from 'child_process';
