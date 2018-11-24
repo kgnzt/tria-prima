@@ -1,6 +1,6 @@
 {
   "name": "tria-prima",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Frontend application framework.",
   "main": "./dist/lib/index.js",
   "bin": {
