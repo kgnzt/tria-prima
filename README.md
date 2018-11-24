@@ -95,3 +95,11 @@ const App = Application({ path, source, store });
 
 ReactDOM.render(<App />, document.getElementById('app'));
 ```
+
+## Deployment
+
+Tria-prima comes with binary deployment scripts for pushing assets to S3:
+
+    npm run tria-prima-compile
+    npm run tria-prima-deploy
+    npm run tria-prima-push
