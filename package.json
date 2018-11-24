@@ -4,9 +4,9 @@
   "description": "Frontend application framework.",
   "main": "./dist/lib/index.js",
   "bin": {
+    "tria-prima-compile": "./dist/bin/compile.js",
     "tria-prima-deploy": "./dist/bin/deploy.js",
-    "tria-prima-push": "./dist/bin/push.js",
-    "tria-prima-compile": "./dist/bin/compile.js"
+    "tria-prima-push": "./dist/bin/push.js"
   },
   "scripts": {
     "test": "jest",
