@@ -3,25 +3,33 @@
   "version": "0.0.0",
   "description": "Frontend application framework.",
   "main": "./dist/index.js",
+  "bin": {
+    "tria-prima-deploy": "./bin/deploy.ts",
+    "tria-prima-push": "./bin/push.ts",
+    "tria-prima-compile": "./bin/compile.ts"
+  },
   "scripts": {
     "test": "jest",
     "compile": "tsc"
   },
-  "types": "./lib/types.d.ts",
+  "types": "./dist/types.d.ts",
   "author": "Nicolas Feigenbaum (Kognizant)",
   "license": "MIT",
   "devDependencies": {
-    "@types/redux": "^3.6.0",
     "@types/jest": "^23.3.9",
     "@types/react": "^16.7.6",
     "@types/react-router": "^4.4.1",
+    "@types/redux": "^3.6.0",
     "awesome-typescript-loader": "^5.2.1",
+    "aws-sdk": "^2.361.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "jest": "^23.6.0",
     "sinon": "^7.1.1",
     "ts-jest": "^23.10.4",
-    "typescript": "^3.1.6"
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.6",
+    "yargs": "^12.0.5"
   },
   "dependencies": {
     "history": "^4.7.2",

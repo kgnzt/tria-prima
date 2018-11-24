@@ -65,7 +65,7 @@ export module ISchema {
    */
   export interface Page<P> {
     meta?: PageMeta;
-    select?(): P;
+    select?(api?: IInstance.SelectAPI): P;
     component?: React.SFC<any>;
     setup?: IPageEnter;
   }
