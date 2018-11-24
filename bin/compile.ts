@@ -170,7 +170,7 @@ export function javascript(
   options: IOptions
 ): Promise<number> {
   return new Promise((resolve, reject) => {
-    const webpack = spawn(path.resolve(__dirname, '../../', WEBPACK), [
+    const webpack = spawn(path.resolve(bundle.root, WEBPACK), [
       `--mode=${options.environment}`,
       `--output-filename=${bundle.jsPathRelative}`
     ], {
