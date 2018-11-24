@@ -27,7 +27,7 @@ const { argv: options } = yargs
     },
     tag: {
       requiresArg: true,
-      default: 'de8047d0-efb8-11e8-a7c1-f72a879b09ca',
+      default: 'latest',
       alias: 't',
       description: 'The build tag to deploy.'
     },

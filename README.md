@@ -98,8 +98,38 @@ ReactDOM.render(<App />, document.getElementById('app'));
 
 ## Deployment
 
-Tria-prima comes with binary deployment scripts for pushing assets to S3:
+Tria-prima offers simple deployment management. Compilation assets are pushed 
+to S3 and can be served by an asset server.
+
+## Compile
+
+> Compiles all frontend assets into a single bundle.
+
+* environment default=development
+* index default=index.hjs
+* name default=javascript
+* directory default=dist
+* bucket default=application
+* region default=us-west-1
 
     npm run tria-prima-compile
+
+## Deploy
+
+> Compiles and pushes assets.
+
     npm run tria-prima-deploy
+
+## Push
+
+> Pushes assets to S3.
+
+* environment default=development
+* directory default=dist
+* bucket default=application
+* region default=us-west-1
+* secret
+* access
+* tag default=latest
+
     npm run tria-prima-push
