@@ -30,8 +30,10 @@ export type IPageEnter = (
  */
 export type IActionTrigger = (payload: any) => any;
 
-// todo:
-//export type IService = (store): Promise<any> => any;
+/**
+ * A source function.
+ */
+export type ISourceAction = (action: any, payload: any) => Promise<any>;
 
 /**
  * Schema definitions.
@@ -72,7 +74,7 @@ export module ISchema {
    * Client defined source.
    */
   export interface Source<T> {
-    [name: string]: (store: T) => Promise<any>;
+    [name: string]: ISourceAction;
   }
 
   /**
@@ -154,7 +156,8 @@ export interface IAPI {
  * A source.
  */
 export interface ISource {
-  // TODO: define
+  name: string;
+  action: Immutable.Map<string, ISourceAction>;
 }
 
 /**
@@ -204,14 +207,14 @@ export interface IRootStore {
  */
 export module IInstance {
   export type API = RecordOf<IAPI>;
-  export type SelectAPI = RecordOf<ISelectAPI>;
-  export type SetupAPI = RecordOf<ISetupAPI>;
   export type Action = RecordOf<IAction<any, any>>;
   export type Application = RecordOf<IApplication>;
   export type Page = RecordOf<IPage>;
   export type PageMeta = RecordOf<IPageMeta>;
   export type Query = RecordOf<IQuery>;
   export type RootStore = RecordOf<IRootStore>;
+  export type SelectAPI = RecordOf<ISelectAPI>;
+  export type SetupAPI = RecordOf<ISetupAPI>;
   export type Source = RecordOf<ISource>;
   export type Store = RecordOf<IStore<any>>;
   export type StoreList = Immutable.List<IStore<any>>;

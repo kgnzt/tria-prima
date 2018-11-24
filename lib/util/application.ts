@@ -38,7 +38,7 @@ export function schemasToList<T, S>(
  * @param schema An application schema.
  * @return Application instance.
  */
-export function resolveApplication(
+export function schemaToApplication(
   schema: ISchema.Application
 ): IInstance.Application {
   return ApplicationRecord({

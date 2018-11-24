@@ -37,10 +37,12 @@ export function resolvePage<P>(
 ): IInstance.Page {
   return Page({
     ...schema,
-    meta: PageMeta({
-      tags: Immutable.List(schema.meta.tags),
-      title: schema.meta.title
-    }),
+    meta: schema.meta
+      ? PageMeta({
+          tags: schema.meta.tags ? Immutable.List(schema.meta.tags) : Immutable.List(),
+          title: schema.meta.title
+        })
+      : PageMeta(),
     path
   });
 }

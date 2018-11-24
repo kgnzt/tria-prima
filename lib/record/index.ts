@@ -7,4 +7,5 @@ export * from './Query';
 export * from './RootStore';
 export * from './SelectAPI';
 export * from './SetupAPI';
+export * from './Source';
 export * from './Store';

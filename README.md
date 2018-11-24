@@ -8,14 +8,14 @@ Frontend application framework.
 
 ## Three principles
 
-Application development progresses through three areas of concern:
+Development progresses via three areas of concern:
 
 ### Store
 
 > The structure, change, and retrieval of state.
 
 A collection of immutable stores model the application's state, how changes are 
-made to state, and the interfaces for accessing state.
+made to state, and the interfaces for accessing it.
 
 ```javascript
 export const user: ISchema.Store {
@@ -63,7 +63,7 @@ export const Profile: ISchema.Page = {
   meta: {
     title: 'User Profile'
   },
-  component: UserProfile
+  component: UserProfile,
   select: ({ action, select }) => {
     return {
       users: select.user.find,
@@ -87,15 +87,11 @@ export const path: ISchema.Path = {
 
 ## Creating an Application
 
-Creating an Application means loading three schemas:
+Creating an Application by providing the three schemas:
 
 ```javascript
 
-const App = Application({
-  path,
-  source,
-  store
-})
+const App = Application({ path, source, store });
 
 ReactDOM.render(<App />, document.getElementById('app'));
 ```

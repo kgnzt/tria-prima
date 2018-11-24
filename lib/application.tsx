@@ -20,7 +20,7 @@ import {
 } from './record';
 import {
   pagesToRouter,
-  resolveApplication,
+  schemaToApplication,
   storesToActions,
   storesToReducer,
   storesToSelectors
@@ -46,7 +46,7 @@ export function Application(
     store: RootStore()
   }, opts);
 
-  const app: IInstance.Application = resolveApplication(application);
+  const app: IInstance.Application = schemaToApplication(application);
 
   // Setup store.
   const reducer = storesToReducer(app.stores);
