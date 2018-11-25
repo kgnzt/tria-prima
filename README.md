@@ -60,7 +60,7 @@ export const UserList: ISchema.Page = {
   meta: {
     title: 'Users'
   },
-  component: UserList,
+  root: UserList,
   select: ({ select }) => {
     return {
       users: select.user.find
