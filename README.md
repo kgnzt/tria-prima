@@ -15,14 +15,14 @@ Three concerns for development.
 > The structure, change, and retrieval of state.
 
 A collection of immutable stores model the application's state, how changes are 
-made to state, and cohesive interfaces for accessing it.
+made to state, and a set of cohesive interfaces for accessing state.
 
 ```javascript
 export const user: ISchema.Store {
   store: Immutable.Map(),
   action: {
-    merge(state, user) {
-      return state.get(user.id).merge(user);
+    merge(state, users) {
+      return state.merge(users);
     }
   },
   select: {
@@ -37,8 +37,8 @@ export const user: ISchema.Store {
 
 > Where state comes from and goes to.
 
-A collection of sources define how to retrieve data (http / websocket / etc)
-and how it relates to an application's stores by way of its actions.
+Sources define how to retrieve data (http / websocket / etc) and how it relates 
+to an application's stores by way of its actions.
 
 ```javascript
 export const user: ISchema.Source {
@@ -56,18 +56,18 @@ Browser locations are mapped to Pages, specifying a root component,
 properties mapped to the store, and actions required for setup.
 
 ```javascript
-export const Users: ISchema.Page = {
+export const UserList: ISchema.Page = {
   meta: {
     title: 'Users'
   },
   component: UserList,
-  select: ({ action, select }) => {
+  select: ({ select }) => {
     return {
       users: select.user.find
     };
   },
-  setup: async ({ params }, { source }) => {
-    await source.find(params.get('userId'));
+  setup: async ({ source }) => {
+    await source.user.find();
   }
 }
 
@@ -78,7 +78,7 @@ export const path: ISchema.Path = {
 
 ## Creating an Application
 
-An application can be rendered by providing the schemas outlined above:
+An application is rendered by providing the schemas outlined above:
 
 ```javascript
 Application({ path, source, store }).start();
