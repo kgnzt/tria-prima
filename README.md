@@ -8,7 +8,7 @@ Frontend application framework.
 
 ## Three principles
 
-Development progresses via three areas of concern:
+Three concerns for application development.
 
 ### Store
 
@@ -102,24 +102,30 @@ they can be served by an asset-server.
 
 ## Compile
 
-> Compiles assets into a bundle.
+> Compile assets into a bundle.
 
     npm run tria-prima-compile
 
 ## Push
 
-> Pushes assets to S3.
+> Pushe assets to S3.
 
     npm run tria-prima-push
 
 ## Deploy
 
-> Compiles and pushes assets.
+> Compile and push assets.
 
     npm run tria-prima-deploy
 
 ## Server
 
-> Create an asset-server for your build.
+> Compile server for a build.
 
-    npm run tria-prima-asset-server
+    npm run tria-prima-compile-server
+
+## Deploy
+
+> Compile assets and server, push both.
+
+    npm run tria-prima-compile-server

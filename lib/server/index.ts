@@ -26,6 +26,8 @@ export function server(opts: IConfig = {}) {
   application.use(route.get('/'), (ctx) => {
     ctx.body = request(options.index);
   });
+
+  proxyKoa(options.proxy, application);
   
   application.listen(options.port);
   

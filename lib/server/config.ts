@@ -1,3 +1,12 @@
+export function proxyKoa(proxy: IProxy, application) {
+}
+
+export interface IProxy {
+  [name: string]: {
+    location: string;
+  };
+};
+
 /**
  * Configuration options.
  */
@@ -11,6 +20,11 @@ export interface IConfig {
    * Port to run server on.
    */
   port?: number;
+
+  /**
+   * Configure.
+   */
+  proxy: IProxy;
 };
 
 /**
