@@ -162,6 +162,7 @@ export function storesToActions<T>(
  * @return The action name.
  */
 export function actionTypeToName(type: string): string {
+  console.log(type);
   return fp.last(type.split(ActionDelimiter));
 };
 
@@ -175,6 +176,11 @@ export function storeToReducer<S = any, A = AnyAction>(
   store: IInstance.Store
 ): Reducer {
   return (state: S, action: AnyAction) => {
+    // TEST!
+    if (!state) {
+      return store.store;
+    }
+
     const name = actionTypeToName(action.type);
 
     if (!store.action.has(name)) {
