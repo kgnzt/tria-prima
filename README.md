@@ -87,7 +87,7 @@ export const path: ISchema.Path = {
 
 ## Creating an Application
 
-The application can be rendered by providing the three schemas outlined above:
+The application can be rendered by providing the schemas outlined above:
 
 ```javascript
 Application({ path, source, store }).start();
