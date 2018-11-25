@@ -6,9 +6,9 @@ Frontend application framework.
 
     npm i tria-prima --save
 
-## Design.
+## Design
 
-Three concerns lead development.
+Three concerns guide development.
 
 ### Store
 
