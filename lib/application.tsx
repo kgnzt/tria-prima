@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as fp from 'lodash/fp';
 import * as Immutable from 'immutable';
+import * as ReactDOM from 'react-dom';
 import {
   Dispatch,
   Store as ReduxStore,
@@ -26,6 +27,15 @@ import {
   storesToSelectors
 } from './util';
 
+export interface IRenderOptions {
+  id?: string;
+};
+
+export interface IApplicationResult {
+  Component: React.SFC;
+  render(opts: IRenderOptions);
+};
+
 /**
  * Create an application.
  *
@@ -41,10 +51,7 @@ export function Application(
      */
     store: any
   }
-): {
-  Component: React.SFC;
-  render();
-} {
+): IApplicationResult {
   const options = fp.defaults({
     store: RootStore()
   }, opts);
@@ -77,12 +84,12 @@ export function Application(
 
   return {
     Component,
-    render: (opts: { id?: string }) => {
+    render: (opts: IRenderOptions) => {
       const options = fp.defaults(opts, {
         id: 'app'
       });
 
-      ReactDOM.render(<Component />, document.getElementById(options.id));
+      return ReactDOM.render(<Component />, document.getElementById(options.id));
     }
   };
 }

@@ -278,9 +278,16 @@ describe('Util: Store', () => {
 
     const reducer = storesToReducer(stores);
 
-    // create reducig function test?
+    it('ignores @@redux namespace', () => {
+      expect(() => {
+        reducer(0, {
+          type: '@@redux/INITa.2.k.9.p.c',
+          payload: 5
+        })
+      }).toBe(0);
+    });
 
-    it('', () => {
+    it('throw if an action cannot be found', () => {
       expect(() => {
         reducer(0, {
           type: 'root.zing',

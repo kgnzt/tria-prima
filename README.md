@@ -6,16 +6,16 @@ Frontend application framework.
 
     npm i tria-prima --save
 
-## Three principles
+## Design.
 
-Three concerns for development.
+Three concerns lead development.
 
 ### Store
 
 > The structure, change, and retrieval of state.
 
 A collection of immutable stores model the application's state, how changes are 
-made to state, and a set of cohesive interfaces for accessing state.
+made to state, and provide cohesive interfaces for state access.
 
 ```javascript
 export const user: ISchema.Store {
@@ -52,8 +52,8 @@ export const user: ISchema.Source {
 
 > What to display given the browser's location.
 
-Browser locations are mapped to Pages, specifying a root component, 
-properties mapped to the store, and actions required for setup.
+Browser locations are mapped to Pages, which contain a root component, 
+properties mapped to the store, and the actions needed for setup.
 
 ```javascript
 export const UserList: ISchema.Page = {

@@ -2,6 +2,7 @@ import * as Immutable from 'immutable';
 import { RecordOf } from 'immutable';
 import * as UUID from 'simply-uuid';
 import * as fp from 'lodash/fp';
+import { ignoreActions } from 'redux-ignore';
 import {
   Reducer,
   Dispatch,
@@ -197,7 +198,11 @@ export function storesToReducer(
     acc: object,
     store: IInstance.Store
   ): object => {
-    return fp.set(store.name, storeToReducer(store), acc);
+    const reducer = ignoreActions(storeToReducer(store), (action) => {
+      return /@@redux/g.test(action.type)
+    });
+
+    return fp.set(store.name, reducer, acc);
   }, {}));
 }
 

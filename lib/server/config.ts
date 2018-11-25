@@ -1,6 +1,3 @@
-export function proxyKoa(proxy: IProxy, application) {
-}
-
 export interface IProxy {
   [name: string]: {
     location: string;
@@ -24,7 +21,7 @@ export interface IConfig {
   /**
    * Configure.
    */
-  proxy: IProxy;
+  proxy?: IProxy;
 };
 
 /**
@@ -32,5 +29,6 @@ export interface IConfig {
  */
 export const config: IConfig = {
   port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
-  index: process.env.INDEX
+  index: process.env.INDEX,
+  proxy: {}
 };

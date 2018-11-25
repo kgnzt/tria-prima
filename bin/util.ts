@@ -1,3 +1,5 @@
+import * as fs from 'fs';
+
 /**
  * Setup for creating an asset bundle.
  *
@@ -8,7 +10,7 @@
 export function createWorkspace(
   directory: string,
   path: string
-): Promise<> {
+): Promise<void> {
   return new Promise((resolve, reject) => {
     // Ensure the build directory exists.
     if (!fs.existsSync(directory)) {

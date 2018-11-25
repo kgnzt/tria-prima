@@ -178,7 +178,7 @@ export function compile(
   code: number,
   bundle: IAssetBundle
 }> {
-  return createWorkforce(options.directory, bundle.path)
+  return createWorkspace(options.directory, bundle.path)
     .then(() => {
       return html(bundle, options);
     })
