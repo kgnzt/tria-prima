@@ -41,7 +41,10 @@ export function Application(
      */
     store: any
   }
-): React.SFC {
+): {
+  Component: React.SFC;
+  render();
+} {
   const options = fp.defaults({
     store: RootStore()
   }, opts);
@@ -62,8 +65,7 @@ export function Application(
   });
   const history = createBrowserHistory();
   const Router: any = pagesToRouter(app.pages, api);
-
-  return () => (
+  const Component = () => (
     <Root
       store={store}
     >
@@ -72,4 +74,15 @@ export function Application(
       />
     </Root>
   );
+
+  return {
+    Component,
+    render: (opts: { id?: string }) => {
+      const options = fp.defaults(opts, {
+        id: 'app'
+      });
+
+      ReactDOM.render(<Component />, document.getElementById(options.id));
+    }
+  };
 }

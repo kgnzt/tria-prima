@@ -8,7 +8,7 @@ Frontend application framework.
 
 ## Three principles
 
-Three concerns for application development.
+Three concerns for development.
 
 ### Store
 
@@ -87,18 +87,15 @@ export const path: ISchema.Path = {
 
 ## Creating an Application
 
-Create an Application by providing the three schemas outlined above:
+Render the application by providing the three schemas outlined above:
 
 ```javascript
-const App = Application({ path, source, store });
-
-ReactDOM.render(<App />, document.getElementById('app'));
+Application({ path, source, store }).start();
 ```
 
 ## Deployment
 
-Tria-prima provides deployment management. Assets are pushed to S3 and where 
-they can be served by an asset-server.
+Deployment may be managed through the following commands:
 
 ## Compile
 
@@ -108,7 +105,7 @@ they can be served by an asset-server.
 
 ## Push
 
-> Pushe assets to S3.
+> Push assets to S3.
 
     npm run tria-prima-push
 
@@ -117,15 +114,3 @@ they can be served by an asset-server.
 > Compile and push assets.
 
     npm run tria-prima-deploy
-
-## Server
-
-> Compile server for a build.
-
-    npm run tria-prima-compile-server
-
-## Deploy
-
-> Compile assets and server, push both.
-
-    npm run tria-prima-compile-server
