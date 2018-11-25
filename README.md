@@ -15,7 +15,7 @@ Three concerns for development.
 > The structure, change, and retrieval of state.
 
 A collection of immutable stores model the application's state, how changes are 
-made to state, and the interfaces for accessing it.
+made to state, and cohesive interfaces for accessing it.
 
 ```javascript
 export const user: ISchema.Store {
@@ -87,7 +87,7 @@ export const path: ISchema.Path = {
 
 ## Creating an Application
 
-The application can be rendered by providing the schemas outlined above:
+An application can be rendered by providing the schemas outlined above:
 
 ```javascript
 Application({ path, source, store }).start();
@@ -95,7 +95,7 @@ Application({ path, source, store }).start();
 
 ## Deployment
 
-Deployment may be managed through the following commands:
+Deployment is managed through the following commands:
 
 ### Compile
 
