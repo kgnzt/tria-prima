@@ -8,6 +8,7 @@ import * as uuid from 'uuid/v1';
 import * as yargs from 'yargs';
 import { spawn } from 'child_process';
 
+import { createWorkspace } from './util';
 import * as args from './args';
 
 /**
@@ -116,31 +117,6 @@ export function AssetBundle(options: IOptions): IAssetBundle {
 }
 
 /**
- * Setup for creating an asset bundle.
- *
- * @param bundle An asset bundle definition.
- * @return A promise.
- */
-export function setup(
-  bundle: IAssetBundle,
-  options: IOptions
-): Promise<IAssetBundle> {
-  return new Promise((resolve, reject) => {
-    if (!fs.existsSync(options.directory)) {
-      fs.mkdirSync(options.directory);
-    }
-
-    return fs.mkdir(bundle.path, { recursive: true }, (error) => {
-      if (error) {
-        return reject(error);
-      }
-
-      return resolve(bundle);
-    });
-  });
-}
-
-/**
  * Compile html.
  *
  * @param asset An asset bundle definition.
@@ -202,7 +178,7 @@ export function compile(
   code: number,
   bundle: IAssetBundle
 }> {
-  return setup(bundle, options)
+  return createWorkforce(options.directory, bundle.path)
     .then(() => {
       return html(bundle, options);
     })

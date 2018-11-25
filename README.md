@@ -90,7 +90,6 @@ export const path: ISchema.Path = {
 Create an Application by providing the three schemas outlined above:
 
 ```javascript
-
 const App = Application({ path, source, store });
 
 ReactDOM.render(<App />, document.getElementById('app'));
@@ -98,21 +97,20 @@ ReactDOM.render(<App />, document.getElementById('app'));
 
 ## Deployment
 
-Tria-prima offers simple deployment management. Compilation assets are pushed 
-to S3 and can be served by an asset server.
+Tria-prima provides deployment management. Assets are pushed to S3 and where 
+they can be served by an asset-server.
 
 ## Compile
 
-> Compiles all frontend assets into a single bundle.
-
-* environment default=development
-* index default=index.hjs
-* name default=javascript
-* directory default=dist
-* bucket default=application
-* region default=us-west-1
+> Compiles assets into a bundle.
 
     npm run tria-prima-compile
+
+## Push
+
+> Pushes assets to S3.
+
+    npm run tria-prima-push
 
 ## Deploy
 
@@ -120,16 +118,8 @@ to S3 and can be served by an asset server.
 
     npm run tria-prima-deploy
 
-## Push
+## Server
 
-> Pushes assets to S3.
+> Create an asset-server for your build.
 
-* environment default=development
-* directory default=dist
-* bucket default=application
-* region default=us-west-1
-* secret
-* access
-* tag default=latest
-
-    npm run tria-prima-push
+    npm run tria-prima-asset-server
