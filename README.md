@@ -41,7 +41,7 @@ export const user: ISchema.Store {
 > Where state comes from and goes to.
 
 A collection of sources define how to retrieve data (http / websocket / etc)
-and how it relates to an application's stores via actions.
+and how it relates to an application's stores by way of its actions.
 
 ```javascript
 export const user: ISchema.Source {
@@ -56,7 +56,7 @@ export const user: ISchema.Source {
 > What to display given the browser's location.
 
 Browser locations are mapped to Pages, specifying a root component, 
-properties mapped to the store, and actions that may be required for setup.
+properties mapped to the store, and actions required for setup.
 
 ```javascript
 export const Profile: ISchema.Page = {
@@ -87,7 +87,7 @@ export const path: ISchema.Path = {
 
 ## Creating an Application
 
-Render the application by providing the three schemas outlined above:
+The application can be rendered by providing the three schemas outlined above:
 
 ```javascript
 Application({ path, source, store }).start();
@@ -97,19 +97,19 @@ Application({ path, source, store }).start();
 
 Deployment may be managed through the following commands:
 
-## Compile
+### Compile
 
 > Compile assets into a bundle.
 
     npm run tria-prima-compile
 
-## Push
+### Push
 
 > Push assets to S3.
 
     npm run tria-prima-push
 
-## Deploy
+### Deploy
 
 > Compile and push assets.
 
