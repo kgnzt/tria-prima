@@ -28,9 +28,6 @@ export const user: ISchema.Store {
   select: {
     find(state) {
       return state;
-    },
-    findById(state, id) {
-      return state.get(id);
     }
   }
 }
@@ -45,8 +42,8 @@ and how it relates to an application's stores by way of its actions.
 
 ```javascript
 export const user: ISchema.Source {
-  findById(action, id) {
-    return http(`/users/${id}`).get().then(action.user.merge);
+  find(action) {
+    return http(`/api/users`).get().then(action.user.merge);
   }
 }
 ```
@@ -59,20 +56,14 @@ Browser locations are mapped to Pages, specifying a root component,
 properties mapped to the store, and actions required for setup.
 
 ```javascript
-export const Profile: ISchema.Page = {
+export const Users: ISchema.Page = {
   meta: {
-    title: 'User Profile'
+    title: 'Users'
   },
-  component: UserProfile,
+  component: UserList,
   select: ({ action, select }) => {
     return {
-      users: select.user.find,
-      user: createSelector([
-        select.location.params,
-        select.user.find
-      ], (params, users) => {
-        return users.find(params.get('userId'));
-      })
+      users: select.user.find
     };
   },
   setup: async ({ params }, { source }) => {
