@@ -9,6 +9,7 @@ import {
  * A Source.
  */
 export const Source = Immutable.Record<ISource>({
+  // consider rename, confusing with store actions.
   action: Immutable.Map<string, ISourceAction>(),
   name: 'uncategorized'
 });

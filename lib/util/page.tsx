@@ -96,11 +96,22 @@ export const pageToRoute = fp.curry((
   api: IInstance.API,
   page: IInstance.Page
 ): JSX.Element => {
+  if (page.path === '/') {
+    console.log('xoomie');
+    console.log('xoomie');
+    console.log('xoomie');
+    console.log('xoomie');
+  }
+
   return (
     <Route
+      exact={page.path === '/'}
       key={page.path}
       path={page.path}
-      component={connect(page.select(apiToSelectAPI(api)))(page.component)}
+      component={connect(() => {
+        console.log('s');
+        return {};
+      })(page.component)}
       onEnter={onEnterPage(page, apiToSetupAPI(api))}
     />
   );
@@ -119,6 +130,7 @@ export function pagesToRouter(
 ): React.SFC<{
   history: any;
 }> {
+  console.log(pages, api);
   return ({ history }) => (
     <Router
       history={history}

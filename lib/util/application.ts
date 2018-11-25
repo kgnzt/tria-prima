@@ -54,7 +54,7 @@ export function schemaToApplication(
 
     sources: schemasToList<
       IInstance.Source,
-      ISchema.Source<any>
+      ISchema.Source
     >(schema.source, resolveSource)
   });
 }

@@ -84,6 +84,19 @@ An application is rendered by providing the schemas outlined above:
 Application({ path, source, store }).start();
 ```
 
+## Resource
+
+Velocity is increased through convention. Tria-Prima offers a Resource
+abstraction capable of generating a store and source for restful resources.
+
+```javascript
+const { store, source } = resource('user', {
+  model: User,
+  slug: ':userId',
+  path: '/user'
+});
+```
+
 ## Deployment
 
 Deployment is managed through the following commands:

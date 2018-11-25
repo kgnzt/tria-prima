@@ -3,6 +3,15 @@ import * as Immutable from 'immutable';
 import { RecordOf } from 'immutable';
 
 /**
+ * A bundle item type.
+ */
+export enum SchemaType {
+  Source: 'source',
+  Store: 'store',
+  Page: 'page'
+}
+
+/**
  * URL parameters.
  */
 export interface IParams {
@@ -73,7 +82,7 @@ export module ISchema {
   /**
    * Client defined source.
    */
-  export interface Source<T> {
+  export interface Source {
     [name: string]: ISourceAction;
   }
 
@@ -81,7 +90,7 @@ export module ISchema {
    * Client defined sources.
    */
   export interface Sources {
-    [route: string]: Source<any>;
+    [route: string]: Source;
   }
   
   /**
@@ -105,6 +114,25 @@ export module ISchema {
     source: Sources;
     store: Stores;
     path: Paths;
+  }
+
+  /**
+   * A resource bundle.
+   */
+  export interface ResourceBundle<T> {
+    /**
+     * Standardized source for the resource.
+     */
+    [BundleType.Source]: {
+      [name: string]: Source
+    },
+  
+    /**
+     * Standardized store for the resource.
+     */
+    [BundleType.Store]: {
+      [name: string]: Store<T>
+    }
   }
 }
 
@@ -203,6 +231,14 @@ export interface IRootStore {
 }
 
 /**
+ * A resource store.
+ */
+export interface IResourceStore<T> {
+  resource: Immutable.Map<string, T>;
+  local: Immutable.Map<string, T>;
+}
+
+/**
  * Instance definitions.
  */
 export module IInstance {
@@ -218,4 +254,6 @@ export module IInstance {
   export type Source = RecordOf<ISource>;
   export type Store = RecordOf<IStore<any>>;
   export type StoreList = Immutable.List<IStore<any>>;
+
+  export type ResourceStore = RecordOf<IResourceStore<any>>;
 }

@@ -57,6 +57,8 @@ export function Application(
   }, opts);
 
   const app: IInstance.Application = schemaToApplication(application);
+  console.log(application);
+  console.log(app);
 
   // Setup store.
   const reducer = storesToReducer(app.stores);

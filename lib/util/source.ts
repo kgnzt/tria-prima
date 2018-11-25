@@ -15,7 +15,7 @@ import { Source } from '../record';
  * @return A source instance.
  */
 export function resolveSource(
-  schema: ISchema.Source<any>,
+  schema: ISchema.Source,
   name: string
 ): IInstance.Source {
   return Source({
