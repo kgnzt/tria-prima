@@ -1,4 +1,4 @@
-# Tria Prima - ☿ 🜔 🜍
+# Tria Prima - △
 
 Frontend application framework.
 
