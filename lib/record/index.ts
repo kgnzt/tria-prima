@@ -4,6 +4,7 @@ export * from './Application';
 export * from './Page';
 export * from './PageMeta';
 export * from './Query';
+export * from './ResourceStore';
 export * from './RootStore';
 export * from './SelectAPI';
 export * from './SetupAPI';

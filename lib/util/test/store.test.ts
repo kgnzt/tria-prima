@@ -234,10 +234,10 @@ describe('Util: Store', () => {
     it('throws if no reducer exists for type in store', () => {
       expect(() => {
         reducer(0, {
-          type: 'root.zing',
+          type: 'root.alphabet',
           payload: 5
         })
-      }).toThrow('Could not find reducer for action: zing.');
+      }).toThrow('Could not find reducer for action: alphabet.');
     });
 
     it('correctly delegates to the reducing function returning result', () => {

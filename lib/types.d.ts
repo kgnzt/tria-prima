@@ -3,15 +3,6 @@ import * as Immutable from 'immutable';
 import { RecordOf } from 'immutable';
 
 /**
- * A bundle item type.
- */
-export enum SchemaType {
-  Source: 'source',
-  Store: 'store',
-  Page: 'page'
-}
-
-/**
  * URL parameters.
  */
 export interface IParams {
@@ -123,14 +114,14 @@ export module ISchema {
     /**
      * Standardized source for the resource.
      */
-    [BundleType.Source]: {
+    source: {
       [name: string]: Source
     },
   
     /**
      * Standardized store for the resource.
      */
-    [BundleType.Store]: {
+    store: {
       [name: string]: Store<T>
     }
   }
@@ -173,11 +164,13 @@ export interface ISetupAPI {
 /**
  * Complete client API.
  */
+// TODO: types
 export interface IAPI {
   action: any;
   store: any;
   select: any;
   source: any;
+  history: any;
 }
 
 /**
@@ -236,6 +229,28 @@ export interface IRootStore {
 export interface IResourceStore<T> {
   resource: Immutable.Map<string, T>;
   local: Immutable.Map<string, T>;
+}
+
+/**
+ * Options for constructing a resource bundle.
+ */
+export interface IResourceBundleOptions<T> {
+  type: string;
+  slug: string;
+  model: T,
+  path: string;
+}
+
+/**
+ * Function that generates a navigation function.
+ */
+export type INavigate = (path: string, params: object) => Function;
+
+/**
+ * Default root component properties.
+ */
+export interface IPageProps {
+  navigate: INavigate;
 }
 
 /**

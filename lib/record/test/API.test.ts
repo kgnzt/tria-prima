@@ -12,6 +12,10 @@ describe('Record: API', () => {
         expect(Immutable.Record.isRecord(instance.action)).toBe(true);
       });
 
+      it('has correct default history', () => {
+        expect(instance.history).toHaveProperty('push');
+      });
+
       it('has correct default source', () => {
         expect(Immutable.Record.isRecord(instance.source)).toBe(true);
       });

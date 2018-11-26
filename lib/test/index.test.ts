@@ -1,7 +1,13 @@
-import * as Index from '../';
+import * as index from '../';
 
-describe('', () => {
-  it('exports required items', () => {
-    expect()
+describe('Index', () => {
+  it('exports required', () => {
+    [
+      'Application',
+      'SchemaType',
+      'resource',
+      'unpack',
+      'constructInto'
+    ].forEach(key => expect(index).toHaveProperty(key));
   });
 });

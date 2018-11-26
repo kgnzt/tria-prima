@@ -2,28 +2,31 @@ import * as React from 'react';
 import * as Immutable from 'immutable';
 import * as fp from 'lodash/fp';
 import Path from 'path-parser'
+import * as queryString from 'query-string';
 import * as parsePath from 'parse-path';
 import { connect } from 'react-redux';
-import {
-  apiToSelectAPI,
-  apiToSetupAPI
-} from '../record/util';
 import {
   Route,
   Router,
   Switch
 } from 'react-router';
 import {
+  IInstance,
+  INavigate,
+  IPageEnter,
+  ISchema
+} from 'types';
+
+import {
+  apiToSelectAPI,
+  apiToSetupAPI
+} from '../record/util';
+import {
   API,
   Page,
   PageMeta,
   Query
 } from '../record';
-import {
-  IInstance,
-  IPageEnter,
-  ISchema
-} from 'types';
 
 /**
  * Convert a user defined page into an application Page.
@@ -86,6 +89,31 @@ export function mapStateToProps() {
 }
 
 /**
+ * Determine if a Page is the root of the application.
+ *
+ * @param page The page to check for rootness.
+ * @return Determination.
+ */
+function isRoot(page: IInstance.Page): boolean {
+  return page.path === '/';
+}
+
+/**
+ * Create a navigation function.
+ *
+ * @param history The browser history.
+ * @return A navigate function.
+ */
+// TODO: test
+function toNavigate(history: any): INavigate {
+  return (path: string, params: object = {}): any => {
+    return () => {
+      return history.push(path, queryString.stringify(params));
+    };
+  };
+}
+
+/**
  * Convert a page into a React route component.
  *
  * @param api An API instance.
@@ -96,21 +124,15 @@ export const pageToRoute = fp.curry((
   api: IInstance.API,
   page: IInstance.Page
 ): JSX.Element => {
-  if (page.path === '/') {
-    console.log('xoomie');
-    console.log('xoomie');
-    console.log('xoomie');
-    console.log('xoomie');
-  }
-
   return (
     <Route
-      exact={page.path === '/'}
+      exact={isRoot(page)}
       key={page.path}
       path={page.path}
-      component={connect(() => {
-        console.log('s');
-        return {};
+      component={connect((state) => {
+        return {
+          navigate: toNavigate(api.history)
+        };
       })(page.component)}
       onEnter={onEnterPage(page, apiToSetupAPI(api))}
     />
@@ -130,10 +152,12 @@ export function pagesToRouter(
 ): React.SFC<{
   history: any;
 }> {
-  console.log(pages, api);
+  // TODO: better home / set. Maybe set if none provided?
+  const ap = api.set('history', history);
+
   return ({ history }) => (
     <Router
-      history={history}
+      history={api.history}
     >
       <Switch>
         {pages.map(pageToRoute(api))}

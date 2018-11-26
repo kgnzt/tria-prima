@@ -2,6 +2,8 @@ import * as Immutable from 'immutable';
 import * as React from 'react';
 import * as sinon from 'sinon';
 import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import {
   Route,
   Router as ReactRouter
@@ -89,8 +91,22 @@ describe('Util: Page', () => {
   describe('pageToRoute', () => {
     const { pageToRoute } = Util;
 
+    function wrapRoute(route) {
+      return mount(
+        <Provider
+          store={createStore((a) => a, '')}
+        >
+          <ReactRouter
+            history={history}
+          >
+            {route}
+          </ReactRouter>
+        </Provider>
+      );
+    }
+
     const route = pageToRoute(api, page);
-    const wrapper = mount(<ReactRouter history={history}>{route}</ReactRouter>);
+    const wrapper = wrapRoute(route);
 
     it('is curried', () => {
       expect(pageToRoute(api)).toBeInstanceOf(Function);
@@ -114,6 +130,17 @@ describe('Util: Page', () => {
 
     it('connects the selector to the page component', () => {
       // TODO:
+    });
+
+    it('sets exact to undefined when not the root path', () => {
+      expect(wrapper.find(Route).prop('exact')).toBe(false);
+    });
+
+    it('sets exact to true when the root path', () => {
+      expect(wrapRoute(pageToRoute(api, Page({
+        path: '/',
+        setup: sinon.stub()
+      }))).find(Route).prop('exact')).toBe(true);
     });
   });
 
