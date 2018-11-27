@@ -5,6 +5,7 @@ import Path from 'path-parser'
 import * as queryString from 'query-string';
 import * as parsePath from 'parse-path';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import {
   Route,
   Router,
@@ -130,9 +131,19 @@ export const pageToRoute = fp.curry((
       key={page.path}
       path={page.path}
       component={connect((state) => {
-        return {
-          navigate: toNavigate(api.history)
+        /**
+         * Default selectors.
+         */
+        const defaults = {
+          navigate: () => {
+            return toNavigate(api.history)
+          }
         };
+
+        return createStructuredSelector(Object.assign(
+          defaults,
+          page.select(api)
+        ))(state);
       })(page.component)}
       onEnter={onEnterPage(page, apiToSetupAPI(api))}
     />
