@@ -65,16 +65,15 @@ export function onEnterPage(
   location: any = window.location.href
 ) {
   const route = Path.createPath(page.path);
+  console.log(page, api, location);
 
-  return () => {
-    const path = parsePath(location);
-    const params = Immutable.Map<string, string>(route.test(path.pathname) as any);
-    const query = Query({
-      params
-    });
+  const path = parsePath(location);
+  const params = Immutable.Map<string, string>(route.test(path.pathname) as any);
+  const query = Query({
+    params
+  });
 
-    return page.setup(query, api);
-  }
+  return page.setup(query, api);
 }
 
 /**
@@ -90,7 +89,17 @@ export function mapStateToProps() {
 }
 
 /**
- * Determine if a Page is the root of the application.
+ * Determine if a Page's path is global.
+ *
+ * @param page The page to check for globalness.
+ * @return Determination.
+ */
+function isGlobal(page: IInstance.Page): boolean {
+  return page.path === '*';
+}
+
+/**
+ * Determine if a Page's path is the application root.
  *
  * @param page The page to check for rootness.
  * @return Determination.
@@ -111,6 +120,28 @@ function toNavigate(history: any): INavigate {
     return () => {
       return history.push(path, queryString.stringify(params));
     };
+  };
+}
+
+/**
+ * Create a container for a Route.
+ */
+export function containerFor(
+  page: IInstance.Page,
+  api: IInstance.API
+): any {
+  return class extends React.Component<any, any> {
+    componentDidMount() {
+      console.log('HERE');
+      console.log('HERE');
+      onEnterPage(page, apiToSetupAPI(api));
+    }
+  
+    render() {
+      return (
+        <page.component {...this.props} />
+      );
+    }
   };
 }
 
@@ -144,8 +175,7 @@ export const pageToRoute = fp.curry((
           defaults,
           page.select(api)
         ))(state);
-      })(page.component)}
-      onEnter={onEnterPage(page, apiToSetupAPI(api))}
+      })(containerFor(page, api))}
     />
   );
 });
@@ -165,6 +195,7 @@ export function pagesToRouter(
 }> {
   // TODO: better home / set. Maybe set if none provided?
   const ap = api.set('history', history);
+  console.log(api);
 
   return ({ history }) => (
     <Router

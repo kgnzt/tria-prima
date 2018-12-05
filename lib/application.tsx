@@ -22,9 +22,10 @@ import {
 import {
   pagesToRouter,
   schemaToApplication,
+  sourcesToSourceApi,
   storesToActions,
   storesToReducer,
-  storesToSelectors
+  storesToSelectors,
 } from './util';
 
 export interface IRenderOptions {
@@ -66,12 +67,14 @@ export function Application(
 
   // Setup sources and actions.
   const action = storesToActions(app.stores, store.dispatch);
+  console.log('ACTION:', action);
   const api: IInstance.API = API({
-    source: app.sources,
+    source: sourcesToSourceApi(app.sources, action),
     store: storesToSelectors(app.stores),
     select: storesToSelectors(app.stores),
     action
   });
+  console.log('API: ', api);
   const history = createBrowserHistory();
   const Router: any = pagesToRouter(app.pages, api);
   const Component = () => (

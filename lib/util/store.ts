@@ -50,6 +50,7 @@ export function resolveStore<S>(
   schema: ISchema.Store<S>,
   name: string
 ): IInstance.Store {
+  console.log('schema', schema);
   return Store({
     ...schema,
     name,
@@ -58,6 +59,7 @@ export function resolveStore<S>(
       reducer: IReducer<S, any>,
       name: string
     ) => {
+      console.log('r', reducer, name);
       return acc.set(name, resolveAction(reducer, name));
     }, Immutable.Map<string, IInstance.Action>(), schema.action)
   });
@@ -137,6 +139,18 @@ export function storeToActions<T>(
 }
 
 /**
+ * Given a store list, generate record defaults.
+ *
+ * @param stores A list of stores.
+ * @return Store record defaults.
+ */
+export function storesToRecordDefaults(stores: IInstance.StoreList): object {
+  return stores.reduce((acc: object, store: IInstance.Store): object => {
+    return fp.set(store.name, Immutable.Record({})(), acc);
+  }, {});
+}
+
+/**
  * Create actions from application stores.
  *
  * @param store Application stores.
@@ -147,12 +161,14 @@ export function storesToActions<T>(
   stores: IInstance.StoreList,
   dispatch: Dispatch
 ): RecordOf<T> {
+  console.log('stores', stores, storesToRecordDefaults(stores));
   return stores.reduce((
     acc: RecordOf<T>,
     store: IInstance.Store
   ) => {
+    console.log(store.name, acc);
     return acc.set(store.name as any, storeToActions(store, dispatch) as any);
-  }, Immutable.Record<T>({} as any)());
+  }, Immutable.Record<T>(storesToRecordDefaults(stores) as any)());
 }
 
 /**
@@ -179,7 +195,7 @@ export function storeToReducer<S = any, A = AnyAction>(
     if (fp.isNil(state)) {
       return store.store;
     }
-
+    console.log('type', action.type);
     const name = actionTypeToName(action.type);
 
     if (!store.action.has(name)) {
@@ -211,10 +227,14 @@ export function storesToReducer(
   }, {}));
 }
 
+/**
+ * Create selects from a store.
+ */
 export function storeToSelects(
   store: IInstance.Store
-): any {
-  return;
+): object {
+  console.log('store', store);
+  return store.action.toJS();
 }
 
 /**
@@ -223,10 +243,10 @@ export function storeToSelects(
 export function storesToSelectors(
   stores: IInstance.StoreList
 ) {
-  return combineReducers(stores.reduce((
+  return stores.reduce((
     acc: object,
     store: IInstance.Store
   ): object => {
     return fp.set(store.name, storeToSelects(store), acc);
-  }, {}));
+  }, {});
 }

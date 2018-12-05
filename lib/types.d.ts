@@ -227,7 +227,7 @@ export interface IRootStore {
  * A resource store.
  */
 export interface IResourceStore<T> {
-  resource: Immutable.Map<string, T>;
+  server: Immutable.Map<string, T>;
   local: Immutable.Map<string, T>;
 }
 
