@@ -154,7 +154,6 @@ export function REST<T>({
          * Add resource(s) to the store.
          */
         received(state, payload) {
-          console.log('OHOHO', state, payload, listize(payload));
           if (fp.isNil(payload)) {
             return state;
           }

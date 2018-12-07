@@ -48,7 +48,6 @@ export function sourcesToSourceApi(
   sources: Immutable.List<IInstance.Source>,
   reducer: any,
 ): IInstance.Source {
-  console.log('zoo', sources, reducer);
   return sources.reduce((acc: object, source: IInstance.Source) => {
     return fp.set(source.name, dork(source.action, reducer).toJS(), acc);
   }, {});

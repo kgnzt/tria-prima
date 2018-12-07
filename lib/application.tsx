@@ -59,8 +59,6 @@ export function Application(
   }, opts);
 
   const app: IInstance.Application = schemaToApplication(application);
-  console.log(application);
-  console.log(app);
 
   // Setup store.
   const reducer = storesToReducer(app.stores);
@@ -68,14 +66,12 @@ export function Application(
 
   // Setup sources and actions.
   const action = storesToActions(app.stores, store.dispatch);
-  console.log('ACTION:', action);
   const api: IInstance.API = API({
     source: sourcesToSourceApi(app.sources, action),
     store: storesToSelectors(app.stores),
     select: storesToSelect(app.stores),
     action
   });
-  console.log('API: ', api);
   const history = createBrowserHistory();
   const Router: any = pagesToRouter(app.pages, api);
   const Component = () => (
