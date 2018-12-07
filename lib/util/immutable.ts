@@ -1,3 +1,4 @@
+import * as Immutable from 'immutable';
 import * as fp from 'lodash/fp';
 
 /**
@@ -19,4 +20,12 @@ export function objectToRecordDefaults(
   ) => {
     return fp.set(key, defaultValue, acc);
   }, {}, source);
+}
+
+export function listize(object) {
+  if (Immutable.List.isList(object)) {
+    return object;
+  }
+
+  return Immutable.List([object]);
 }

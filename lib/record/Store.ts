@@ -11,5 +11,6 @@ import {
 export const Store = Immutable.Record<IStore<any>>({
   store: Immutable.Map(),
   name: 'uncategorized',
-  action: Immutable.Map<string, IInstance.Action>()
+  action: Immutable.Map<string, IInstance.Action>(),
+  select: Immutable.Map<string, any>(),
 });

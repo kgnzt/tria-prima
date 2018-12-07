@@ -8,8 +8,8 @@ describe('Record: ResourceStore', () => {
     const instance = ResourceStore();
 
     describe('defaults', () => {
-      it('has correct default resource', () => {
-        expect(Immutable.Map.isMap(instance.resource)).toBe(true);
+      it('has correct default server', () => {
+        expect(Immutable.Map.isMap(instance.server)).toBe(true);
         expect(instance.store.resource).toBe(0);
       });
   

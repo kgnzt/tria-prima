@@ -59,7 +59,14 @@ export function resolveStore<S>(
       name: string
     ) => {
       return acc.set(name, resolveAction(reducer, name));
-    }, Immutable.Map<string, IInstance.Action>(), schema.action)
+    }, Immutable.Map<string, IInstance.Action>(), schema.action),
+    select: fp.reduce.convert({ cap: false })((
+      acc: Immutable.Map<string, any>,
+      select: any,
+      name: string
+    ) => {
+      return acc.set(name, select);
+    }, Immutable.Map<string, any>(), schema.select)
   });
 }
 
@@ -137,6 +144,18 @@ export function storeToActions<T>(
 }
 
 /**
+ * Given a store list, generate record defaults.
+ *
+ * @param stores A list of stores.
+ * @return Store record defaults.
+ */
+export function storesToRecordDefaults(stores: IInstance.StoreList): object {
+  return stores.reduce((acc: object, store: IInstance.Store): object => {
+    return fp.set(store.name, Immutable.Record({})(), acc);
+  }, {});
+}
+
+/**
  * Create actions from application stores.
  *
  * @param store Application stores.
@@ -152,17 +171,19 @@ export function storesToActions<T>(
     store: IInstance.Store
   ) => {
     return acc.set(store.name as any, storeToActions(store, dispatch) as any);
-  }, Immutable.Record<T>({} as any)());
+  }, Immutable.Record<T>(storesToRecordDefaults(stores) as any)());
 }
 
 /**
- * Get an action name from an action type.
+ * Get a name id store action tuple given an action type.
  *
  * @param type An action type.
- * @return The action name.
+ * @return An action tuple of store name and action name.
  */
-export function actionTypeToName(type: string): string {
-  return fp.last(type.split(ActionDelimiter));
+export function actionTypeToStoreTuple(type: string): [string, string] {
+  const parts = type.split(ActionDelimiter)
+
+  return [fp.first(parts), fp.last(parts)];
 };
 
 /**
@@ -179,14 +200,18 @@ export function storeToReducer<S = any, A = AnyAction>(
     if (fp.isNil(state)) {
       return store.store;
     }
+    const [ name, id ] = actionTypeToStoreTuple(action.type);
 
-    const name = actionTypeToName(action.type);
-
-    if (!store.action.has(name)) {
-      throw new Error(`Could not find reducer for action: ${name}.`);
+    // HM?
+    if (!(store.name === name)) {
+      return store.store;
     }
 
-    return store.action.get(name).reducer(state, action.payload);
+    if (!store.action.has(id)) {
+      throw new Error(`Could not find reducer for action: ${id}.`);
+    }
+
+    return store.action.get(id).reducer(state, action.payload);
   };
 };
 
@@ -211,10 +236,13 @@ export function storesToReducer(
   }, {}));
 }
 
+/**
+ * Create selects from a store.
+ */
 export function storeToSelects(
   store: IInstance.Store
-): any {
-  return;
+): object {
+  return store.action.toJS();
 }
 
 /**
@@ -223,10 +251,22 @@ export function storeToSelects(
 export function storesToSelectors(
   stores: IInstance.StoreList
 ) {
-  return combineReducers(stores.reduce((
+  console.log('STT', stores);
+  return stores.reduce((
     acc: object,
     store: IInstance.Store
   ): object => {
     return fp.set(store.name, storeToSelects(store), acc);
-  }, {}));
+  }, {});
+}
+
+export function storesToSelect(
+  stores: IInstance.StoreList
+) {
+  return stores.reduce((
+    acc: object,
+    store: IInstance.Store
+  ): object => {
+    return fp.set(store.name, store.select.toJS(), acc);
+  }, {});
 }
