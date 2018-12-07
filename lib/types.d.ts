@@ -114,16 +114,13 @@ export module ISchema {
     /**
      * Standardized source for the resource.
      */
-    source: {
-      [name: string]: Source
-    },
+    source: Source,
   
     /**
      * Standardized store for the resource.
      */
-    store: {
-      [name: string]: Store<T>
-    }
+    // Need way to pass T to ResourceStore instance.
+    store: Store<IInstance.ResourceStore>,
   }
 }
 
@@ -206,6 +203,7 @@ export interface IStore<T> {
   store: T;
   name: string;
   action: Immutable.Map<string, IInstance.Action>;
+  select: Immutable.Map<string, any>;
 }
 
 /**
@@ -239,6 +237,7 @@ export interface IResourceBundleOptions<T> {
   slug: string;
   model: T,
   path: string;
+  key: string;
 }
 
 /**

@@ -23,6 +23,7 @@ import {
   pagesToRouter,
   schemaToApplication,
   sourcesToSourceApi,
+  storesToSelect,
   storesToActions,
   storesToReducer,
   storesToSelectors,
@@ -71,7 +72,7 @@ export function Application(
   const api: IInstance.API = API({
     source: sourcesToSourceApi(app.sources, action),
     store: storesToSelectors(app.stores),
-    select: storesToSelectors(app.stores),
+    select: storesToSelect(app.stores),
     action
   });
   console.log('API: ', api);

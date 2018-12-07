@@ -21,6 +21,11 @@ describe('Record: Store', () => {
         expect(Immutable.Map.isMap(instance.action)).toBe(true);
         expect(instance.action.size).toBe(0);
       });
+
+      it('has correct default select', () => {
+        expect(Immutable.Map.isMap(instance.select)).toBe(true);
+        expect(instance.select.size).toBe(0);
+      });
     });
   });
 });

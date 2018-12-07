@@ -1,4 +1,5 @@
 import * as Immutable from 'Immutable';
+import * as fp from 'lodash/fp';
 import { createSelector } from 'reselect';
 import {
   ISchema,
@@ -6,6 +7,7 @@ import {
 } from 'types';
 
 import { constructInto } from './util';
+import { listize } from '../';
 import { ResourceStore } from '../../record';
 
 /**
@@ -15,10 +17,11 @@ import { ResourceStore } from '../../record';
  * @return A resurce bundle.
  */
 export function REST<T>({
+  key,
   model,
   path,
   slug,
-  type
+  type,
 }: IResourceBundleOptions<T>): ISchema.ResourceBundle<T> {
   const into = constructInto(model);
 
@@ -88,82 +91,101 @@ export function REST<T>({
 
   return {
     source: {
-      [type]: {
-        /**
-         * Create a resources.
-         */
-        create(action, {
-          body,
-          params,
-        }: {
-          body?: object,
-          params?: object,
-        }) {
-          return Promise.resolve();
-          /*
-          return service({
-            method: 'get',
-            path: `${path}`,
-            params
-          }).then(into(action.get(type).received));
-          */
-        },
-        /**
-         * Find all resources.
-         */
-        find(action, {
+      /**
+       * Create a resources.
+       */
+      create(action, {
+        body,
+        params,
+      }: {
+        body?: object,
+        params?: object,
+      }) {
+        return Promise.resolve();
+        /*
+        return service({
+          method: 'get',
+          path: `${path}`,
           params
-        }: {
-          params: object
-        }) {
-          return Promise.resolve();
-          /*
-          return service({
-            method: 'get',
-            path: `${path}`,
-            params
-          }).then(into(action.get(type).received));
-          */
+        }).then(into(action.get(type).received));
+        */
+      },
+      /**
+       * Find all resources.
+       */
+      find(action, {
+        params
+      }: {
+        params: object
+      }) {
+        return Promise.resolve();
+        /*
+        return service({
+          method: 'get',
+          path: `${path}`,
+          params
+        }).then(into(action.get(type).received));
+        */
+      },
+
+      /**
+       * Find a resource by id.
+       */
+      findById(action, {
+        id,
+        params
+      }: {
+        id: string;
+        params: object;
+      }) {
+        return Promise.resolve();
+        /*
+        return service({
+          method: 'get',
+          path: `${.path}`,
+          params
+        }).then(into(action.get(type).received));
+        */
+      },
+    },
+    store: {
+      action: {
+        /**
+         * Add resource(s) to the store.
+         */
+        received(state, payload) {
+          console.log('OHOHO', state, payload, listize(payload));
+          if (fp.isNil(payload)) {
+            return state;
+          }
+
+          return listize(payload).reduce((result, resource) => {
+            return state.mergeIn(['server', resource.get(key)], resource);
+          }, state);
         },
 
         /**
-         * Find a resource by id.
+         * Add local resource(s) to the store.
          */
-        findById(action, {
-          id,
-          params
-        }: {
-          id: string;
-          params: object;
-        }) {
-          return Promise.resolve();
-          /*
-          return service({
-            method: 'get',
-            path: `${.path}`,
-            params
-          }).then(into(action.get(type).received));
-          */
-        }
-      }
-    },
-    store: {
-      [type]: {
-        action: {
-          received(state, payload) {
+        receivedLocal(state, payload) {
+          if (fp.isNil(payload)) {
             return state;
           }
-        },
-        select: {
-          current: selectCurrent,
-          currentId: selectCurrentId,
-          currentLocal: selectCurrentLocal,
-          local: selectLocal,
-          server: selectServer,
-          setLocal: selectSetLocal,
-        },
-        store: ResourceStore() as any
-      }
-    }
+
+          return listize(payload).reduce((result, resource) => {
+            return state.mergeIn(['local', resource.get(key)], resource);
+          }, state);
+        }
+      },
+      select: {
+        current: selectCurrent,
+        currentId: selectCurrentId,
+        currentLocal: selectCurrentLocal,
+        local: selectLocal,
+        server: selectServer,
+        setLocal: selectSetLocal,
+      },
+      store: ResourceStore() as any
+    },
   };
 }

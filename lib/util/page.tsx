@@ -65,7 +65,6 @@ export function onEnterPage(
   location: any = window.location.href
 ) {
   const route = Path.createPath(page.path);
-  console.log(page, api, location);
 
   const path = parsePath(location);
   const params = Immutable.Map<string, string>(route.test(path.pathname) as any);
@@ -132,8 +131,6 @@ export function containerFor(
 ): any {
   return class extends React.Component<any, any> {
     componentDidMount() {
-      console.log('HERE');
-      console.log('HERE');
       onEnterPage(page, apiToSetupAPI(api));
     }
   
@@ -195,7 +192,6 @@ export function pagesToRouter(
 }> {
   // TODO: better home / set. Maybe set if none provided?
   const ap = api.set('history', history);
-  console.log(api);
 
   return ({ history }) => (
     <Router
